@@ -81,6 +81,7 @@ async function start(funLevel) {
   // effects for first-class
   if (funLevel === "First-Class") {
     movingEmojis(emojis);
+    floatImages();
     zoom();
     explode();
   }
@@ -310,4 +311,32 @@ function flickeringScreen() {
   flicker();
 }
 
+function floatImages() {
+    const images = document.querySelectorAll("img");
+ 
+    images.forEach((img) => {
+        img.style.position = "absolute";
+        img.style.zIndex = "1000"; 
+        img.style.transition = "transform 1s linear";  
+
+        let posX = Math.random() * window.innerWidth;  
+        let posY = Math.random() * window.innerHeight;
+        let speedX = (Math.random() - 0.5) * 5; 
+        let speedY = (Math.random() - 0.5) * 5;
+
+        function moveImage() {
+            posX += speedX;
+            posY += speedY;
+
+            if (posX < 0 || posX > window.innerWidth - img.width) speedX *= -1;
+            if (posY < 0 || posY > window.innerHeight - img.height) speedY *= -1;
+
+            img.style.transform = `translate(${posX}px, ${posY}px)`;
+
+            requestAnimationFrame(moveImage);
+        }
+
+        moveImage();
+    });
+}
 
