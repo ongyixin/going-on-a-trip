@@ -34,7 +34,6 @@ const soundUrls = [
 'https://www.myinstants.com/media/sounds/mario-bros-warp.mp3',
 'https://www.myinstants.com/media/sounds/cow-moo.mp3',
 'https://www.myinstants.com/media/sounds/yeet.mp3',
-'https://www.myinstants.com/media/sounds/thug-life.mp3',
 'https://www.myinstants.com/media/sounds/wow-sound-effect.mp3',
 'https://www.myinstants.com/media/sounds/minecraft-creeper-hiss.mp3',
 'https://www.myinstants.com/media/sounds/among-us-dead-body.mp3',
