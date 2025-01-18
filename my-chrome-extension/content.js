@@ -112,6 +112,10 @@ for (let i = middle.length - 1; i > 0; i--) {
 return word[0] + middle.join('') + word[word.length - 1];
 }
 
+function shuffleWords(text) {
+    return text.split(/\s+/).sort(() => Math.random() - 0.5).join(" ");
+}
+
 function randomiseCharacters() {
   const walker = document.createTreeWalker(
     document.body,
@@ -125,6 +129,8 @@ function randomiseCharacters() {
     node.nodeValue = shuffleWords(node.nodeValue);
   }
 }
+
+setInterval(randomiseCharacters, 3000);
 
 function playRandomSound(funLevel) {
   setInterval(() => {
