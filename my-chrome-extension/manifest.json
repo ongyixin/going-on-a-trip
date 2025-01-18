@@ -16,20 +16,5 @@
             "matches": ["<all_urls>"],
             "js": ["content.js"]
         }
-    ],
-
-    "background": {
-        "service_worker": "background.js"
-    },
-
-    "web_accessible_resources": [
-        {
-            "resources": [
-                "fish-cursor.png",
-                "cat-mouth-closed.jpg",
-                "cat-mouth-open.jpg"
-            ],
-            "matches": ["<all_urls>"]
-        }
     ]
 }
