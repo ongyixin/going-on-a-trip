@@ -64,7 +64,7 @@ async function start(funLevel) {
 
   // effects for all levels
   flyhigh(funLevel);
-  randomiseCharacters();
+  setInterval(randomiseCharacters, 3000);
 
   // effects for business and first-class levels
   if (["Business", "First-Class"].includes(funLevel)) {
@@ -129,8 +129,6 @@ function randomiseCharacters() {
     node.nodeValue = shuffleWords(node.nodeValue);
   }
 }
-
-setInterval(randomiseCharacters, 3000);
 
 function playRandomSound(funLevel) {
   setInterval(() => {
