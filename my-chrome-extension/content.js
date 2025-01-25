@@ -60,7 +60,7 @@ return true;
 
 async function start(funLevel) {
   const colours = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink'];
-  resectEFfects();
+  resetEFfects();
 
   // effects for all levels
   flyhigh(funLevel);
