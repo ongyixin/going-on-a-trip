@@ -58,13 +58,17 @@ if (message.action === 'start') {
 return true;
 });
 
+let activeIntervals = []; 
+let activeAnimations = [];
+
 async function start(funLevel) {
   const colours = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink'];
-  resetEFfects();
+  resetEffects();
 
   // effects for all levels
   flyhigh(funLevel);
   setInterval(randomiseCharacters, 3000);
+  customiseCursor();
 
   // effects for business and first-class levels
   if (["Business", "First-Class"].includes(funLevel)) {
@@ -105,18 +109,20 @@ function flyhigh(funLevel) {
 
 // reset all effects
 function resetEffects() {
-    activeIntervals.forEach(clearInterval);
-    activeIntervals = [];
-    activeAnimations.forEach(cancelAnimationFrame);
-    activeAnimations = [];
-    document.body.style.transform = "";
-    document.body.style.opacity = "1";
-    document.body.style.fontFamily = "";
-    document.body.style.backgroundColor = "";
-    document.body.style.color = "";
-    document.body.style.transition = "";
-    document.querySelectorAll(".emoji, .explosion").forEach((el) => el.remove());
+  activeIntervals.forEach(intervalID => clearInterval(intervalID));
+  activeIntervals = [];
+  activeAnimations.forEach(animationID => cancelAnimationFrame(animationID));
+  activeAnimations = [];
+
+  document.body.style.removeProperty("transform");
+  document.body.style.removeProperty("opacity");
+  document.body.style.removeProperty("backgroundColor");
+  document.body.style.removeProperty("color");
+  document.body.style.removeProperty("fontFamily");
+
+  document.querySelectorAll(".emoji, .explosion").forEach(el => el.remove());
 }
+
 
 function jumbleWord(word) {
 if (word.length <= 3) return word;
@@ -360,15 +366,13 @@ function floatImages() {
 }
 
 function customiseCursor() {
-    const meowmeow = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAAvVBMVEVHcExNV/+DPv9HWv84X/85Xv+dM/+euv99Qv+FPf+GPf88Xf9SVP9GW/+JPP+XN/8jaP+cM/9QVf+TN/85X/+EPv+pLv+UOP80Yf8rZf9cT/+IPP/Wr/8wYf+5J/9jTP+YNv+wK/+yKv+wK/+tuf+MOv+cvv+Jwf8+Xf8tZf9vSP/Isv+4uP9gTf/QsP+NwP91xf+Wvf/Qrf+Iwf+/Jv/FI/+aNf95Q/+IPv9CXP8yYv+ROv+yK/9iTf+nuv/v5nb5AAAANHRSTlMA/Msm+61YBw54OHteF00g/dHYk9vxeWaXaLbeU4e6m/fh+6JnqiaDPVTj2hTMsrZC6TDTDXsUJAAAAhNJREFUeNrt1smWojAYhuEPEBJGFQVny3keq7sZRL3/y+oQrKrWgxatm1rwrEjy5z1Zglwu98C8WpIlPK9RijXwLIldNuulUgdPkg91APPDod7p6I25RPB/zEPBBNM4XBSqsj4jX+e6LM/wQKMggzM6ut6py9UCJ895g+h8JeEesx6GOq5JRr0ahmFVp5DYh2zIoYw75gIboGlh3Y4TQmjPADMUKNJQWRCaEu6YNQVBSOq2kDpl2oJg4AHD1sE1U+ckW7AlZPKWFjDt09pExsBJxS26Pq0pMgcM3GqeFiZeCKj+QkJmTd/CF625WLz5bCs70dfwyfA5ER8IvuX8E9B8Xy1qY9+vgKMtx0IaqoqOqNLLC1pFJIgYqGAUJ0gKVhCMkUJqBTFH4TExECku8y2y+zXZTrUgKVHR0WCp0FSCBFHjT3bFYi/lU0khOa9EKtrLyWYEJYooLsrR2IlUTUGsFrEZK2rR1Q6ELWpgiq2okox62mhLJrt4sIIPVs/jimAUz6uh4rmYnif7ac3rabzQ83ip5xVHy9X+PMKVoquo5bJ7ySnA2FPIe5ts2ixVRtLtxX3PIwBZntt4bOgp2z2ZTgFSLl+2eKl/jDOrd3yjcnTb7dH5PMEn2j8qQHegIAtl0AVWyw252usD7rGLLOiAPfUWe0J8YCGL4XGIW2685/5+RR9A988LuvmfSC6Xy/0kfwGLk01j+3WP8wAAAABJRU5ErkJggg==";
-    const style = document.createElement("style");
-    style.textContent = `
-        * { cursor: url(${meowmeow}) 16 16, auto !important; }
-        button, a, input, textarea, select {
-            cursor: url(${meowmeow}) 16 16, auto !important;
-        }
-    `;
-    document.head.appendChild(style);
+  const meowmeow = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAMAAACdt4HsAAAAvVBMVEVHcExNV/+DPv9HWv84X/85Xv+dM/+euv99Qv+FPf+GPf88Xf9SVP9GW/+JPP+XN/8jaP+cM/9QVf+TN/85X/+EPv+pLv+UOP80Yf8rZf9cT/+IPP/Wr/8wYf+5J/9jTP+YNv+wK/+yKv+wK/+tuf+MOv+cvv+Jwf8+Xf8tZf9vSP/Isv+4uP9gTf/QsP+NwP91xf+Wvf/Qrf+Iwf+/Jv/FI/+aNf95Q/+IPv9CXP8yYv+ROv+yK/9iTf+nuv/v5nb5AAAANHRSTlMA/Msm+61YBw54OHteF00g/dHYk9vxeWaXaLbeU4e6m/fh+6JnqiaDPVTj2hTMsrZC6TDTDXsUJAAAAhNJREFUeNrt1smWojAYhuEPEBJGFQVny3keq7sZRL3/y+oQrKrWgxatm1rwrEjy5z1Zglwu98C8WpIlPK9RijXwLIldNuulUgdPkg91APPDod7p6I25RPB/zEPBBNM4XBSqsj4jX+e6LM/wQKMggzM6ut6py9UCJ895g+h8JeEesx6GOq5JRr0ahmFVp5DYh2zIoYw75gIboGlh3Y4TQmjPADMUKNJQWRCaEu6YNQVBSOq2kDpl2oJg4AHD1sE1U+ckW7AlZPKWFjDt09pExsBJxS26Pq0pMgcM3GqeFiZeCKj+QkJmTd/CF625WLz5bCs70dfwyfA5ER8IvuX8E9B8Xy1qY9+vgKMtx0IaqoqOqNLLC1pFJIgYqGAUJ0gKVhCMkUJqBTFH4TExECku8y2y+zXZTrUgKVHR0WCp0FSCBFHjT3bFYi/lU0khOa9EKtrLyWYEJYooLsrR2IlUTUGsFrEZK2rR1Q6ELWpgiq2okox62mhLJrt4sIIPVs/jimAUz6uh4rmYnif7ac3rabzQ83ip5xVHy9X+PMKVoquo5bJ7ySnA2FPIe5ts2ixVRtLtxX3PIwBZntt4bOgp2z2ZTgFSLl+2eKl/jDOrd3yjcnTb7dH5PMEn2j8qQHegIAtl0AVWyw252usD7rGLLOiAPfUWe0J8YCGL4XGIW2685/5+RR9A988LuvmfSC6Xy/0kfwGLk01j+3WP8wAAAABJRU5ErkJggg==";
+  const style = document.createElement("style");
+  style.textContent = `
+      * { cursor: url(${meowmeow}) 10 10, none !important; }
+      button, a, input, textarea, select {
+          cursor: url(${meowmeow}) 10 10, none !important;
+      }
+  `;
+  document.head.appendChild(style);
 }
-customiseCursor();
-
