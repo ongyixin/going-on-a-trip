@@ -60,6 +60,22 @@ return true;
 
 async function start(funLevel) {
   const colours = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink'];
+  resectEFfects();
+    
+  // reset all effects
+  function resetEffects() {
+      activeIntervals.forEach(clearInterval);
+      activeIntervals = [];
+      activeAnimations.forEach(cancelAnimationFrame);
+      activeAnimations = [];
+      document.body.style.transform = "";
+      document.body.style.opacity = "1";
+      document.body.style.fontFamily = "";
+      document.body.style.backgroundColor = "";
+      document.body.style.color = "";
+      document.body.style.transition = "";
+      document.querySelectorAll(".emoji, .explosion").forEach((el) => el.remove());
+  }
 
   // effects for all levels
   flyhigh(funLevel);
@@ -276,6 +292,8 @@ function explode() {
   generateExplosions();
 }
 
+let shakiness;
+
 function shakyScreen(intensity = 5) {
 
   function shake() {
@@ -286,10 +304,11 @@ function shakyScreen(intensity = 5) {
       document.body.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
       document.body.style.transition = "transform 0.05s linear"; 
 
-      requestAnimationFrame(shake);
+      shakiness = requestAnimationFrame(shake);
   }
 
-  shake();
+  shakiness = requestAnimationFrame(shake);
+  activeAnimations.push(shakiness);
 }
 
 function flickeringScreen() {
